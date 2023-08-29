@@ -24,15 +24,17 @@ while True:
 
     posRectX = 200
     posRectY = 300
-    posCircleX = 300
-    posCircleY = 100
     largRect = 40
     altRect = 50
     rgbRect = (255, 0, 0)
-    rgbCircle = (0,150,255)
+
+    posCircleX = 300
+    posCircleY = 100
+    raioCircle = 20
+    rgbCircle = (0, 150, 255)
 
 
-    pygame.draw.rect(tela, rgbRect, (posRectX, posRectY, largRect, altRect))
-    pygame.draw.circle(tela, rgbCircle, (posCircleX,posCircleY), 40)
+    pygame.draw.rect( tela, rgbRect, (posRectX, posRectY, largRect, altRect))
+    pygame.draw.circle(tela, rgbCircle, (posCircleX, posCircleY), raioCircle)
 
     pygame.display.update()
