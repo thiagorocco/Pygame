@@ -2,10 +2,6 @@ import pygame
 from pygame.locals import *
 from sys import exit
 
-class Linha:
-    def __init__(self, tela, cor, posIniXY, posFimXY, larg):
-        pygame.draw.line(tela, cor, posIniXY, posFimXY, larg)
-
 pygame.init()
 
 largura = 640

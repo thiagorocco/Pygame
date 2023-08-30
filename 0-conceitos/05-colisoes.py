@@ -1,12 +1,17 @@
 import pygame
 from pygame.locals import *
 from sys import exit
+from random import randint
 
 pygame.init()
 
 largura = 640
 altura = 480
 titulo = 'Meu Primeiro Jogo com Pygame'
+
+#Posição aleatório do retangulo azul
+x_azul = randint(40,600)
+y_azul = randint(50,430)
 
 # propriedades do retângulo
 largRect = 40
@@ -30,15 +35,7 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             exit()
-    '''if event.type == KEYDOWN:
-            if event.key == K_a:
-                posRectX -= 20
-            if event.key == K_d:
-                posRectX += 20
-            if event.key == K_w:
-                posRectY -= 20
-            if event.key == K_s:
-                posRectY += 20'''
+
     if pygame.key.get_pressed()[K_a]:
         posRectX -= 20
     if pygame.key.get_pressed()[K_d]:
@@ -49,6 +46,12 @@ while True:
         posRectY += 20
 
     ## Desenhando na tela
-    pygame.draw.rect( tela, rgbRect, (posRectX, posRectY, largRect, altRect))
+    ret_vermelho = pygame.draw.rect( tela, rgbRect, (posRectX, posRectY, largRect, altRect))
+    #posição x e y do azul será sempre uma surpresa
+    ret_azul = pygame.draw.rect( tela, (0,0,255), (x_azul, y_azul, 40, 50))
+
+    if ret_vermelho.colliderect(ret_azul):
+        x_azul = randint(40, 600)
+        y_azul = randint(50, 430)
 
     pygame.display.update()
