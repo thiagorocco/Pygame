@@ -8,7 +8,6 @@ class Linha:
 
 pygame.init()
 
-
 largura = 640
 altura = 480
 titulo = 'Meu Primeiro Jogo com Pygame'
