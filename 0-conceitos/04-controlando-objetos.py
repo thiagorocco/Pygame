@@ -34,7 +34,7 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             exit()
-        if event.type == KEYDOWN:
+    '''if event.type == KEYDOWN:
             if event.key == K_a:
                 posRectX -= 20
             if event.key == K_d:
@@ -42,8 +42,15 @@ while True:
             if event.key == K_w:
                 posRectY -= 20
             if event.key == K_s:
-                posRectY += 20
-
+                posRectY += 20'''
+    if pygame.key.get_pressed()[K_a]:
+        posRectX -= 20
+    if pygame.key.get_pressed()[K_d]:
+        posRectX += 20
+    if pygame.key.get_pressed()[K_w]:
+        posRectY -= 20
+    if pygame.key.get_pressed()[K_s]:
+        posRectY += 20
 
     ## Desenhando na tela
     pygame.draw.rect( tela, rgbRect, (posRectX, posRectY, largRect, altRect))
