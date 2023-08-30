@@ -13,6 +13,11 @@ titulo = 'Meu Primeiro Jogo com Pygame'
 x_azul = randint(40,600)
 y_azul = randint(50,430)
 
+### Variável para controlar os pontos que serão exibidos
+pontos = 0
+### Definindo a fonte
+fonte = pygame.font.SysFont('Liberation Serif', 40, True, True)
+
 # propriedades do retângulo
 largRect = 40
 altRect = 50
@@ -28,6 +33,10 @@ relogio = pygame.time.Clock()
 while True:
     #tick define o número de frames por segundo do jogo
     relogio.tick(30)
+
+    #Texto para exibir os pontos
+    mensagem = f'Pontos: {pontos}'
+    texto_formatado = fonte.render(mensagem, True,(255,255,255))
 
     #truque para não gerar o "rastro" do movimento
     tela.fill((0,0,0))
@@ -50,9 +59,16 @@ while True:
     #posição x e y do azul será sempre uma surpresa
     ret_azul = pygame.draw.rect( tela, (0,0,255), (x_azul, y_azul, 40, 50))
 
-    ### Se houver colisão entre ret_vermelho e ret_azul
+    #Colisão
     if ret_vermelho.colliderect(ret_azul):
         x_azul = randint(40, 600)
         y_azul = randint(50, 430)
+        #incremente pontos a cada colisão
+        pontos += 1
+
+    #exibindo o texto na tela   X , Y
+    tela.blit(texto_formatado,(450,40))
 
     pygame.display.update()
+
+    #pygame.fonts.get_fonts() lista as fontes do pygame
