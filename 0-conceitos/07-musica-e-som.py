@@ -72,6 +72,8 @@ while True:
         y_azul = randint(50, 430)
         #incremente pontos a cada colisão
         pontos += 1
+        #som da colisão
+        barulho_colisao.play()
 
     #exibindo o texto na tela   X , Y
     tela.blit(texto_formatado,(450,40))
