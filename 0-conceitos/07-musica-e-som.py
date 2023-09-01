@@ -6,12 +6,13 @@ from random import randint
 pygame.init()
 
 ### Inserindo música ao jogo
+pygame.mixer.music.set_volume(0.25)
 musica_de_fundo = pygame.mixer.music.load('assets/audio/BoxCat Games - CPU Talk.mp3')
 pygame.mixer.music.play(-1)#-1 faz a música tocar em loop
 
 ### Inserindo som à colisão dos objetos - Precisa ser na extensão .wav
 barulho_colisao = pygame.mixer.Sound('assets/audio/smw_coin.wav')
-
+barulho_colisao.set_volume(1)
 largura = 640
 altura = 480
 titulo = 'Meu Primeiro Jogo com Pygame'
