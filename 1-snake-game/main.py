@@ -1,3 +1,7 @@
+'''
+    Neste código pegaremos o último código desenvolvido no diretório conceitos.
+    Vamos renomear as variáveis ret_vermelho e ret_azul para cobra e maca(maçã)
+'''
 import pygame
 from pygame.locals import *
 from sys import exit
@@ -20,6 +24,7 @@ titulo = 'Jogo da Cobrinha(Snake Game) com Pygame'
 #Posição aleatório do retangulo azul
 x_maca = randint(40,600)
 y_maca = randint(50,430)
+rgbMaca = (255, 0, 0)
 
 ### Variável para controlar os pontos que serão exibidos
 pontos = 0
@@ -31,7 +36,7 @@ largCobra = 40
 altCobra = 50
 x_cobra = (largura - largCobra)//2
 y_cobra = (altura - altCobra)//2
-rgbCobra = (255, 0, 0)
+rgbCobra = (10, 255, 0)
 
 tela = pygame.display.set_mode((largura, altura))
 pygame.display.set_caption(titulo)
@@ -65,7 +70,7 @@ while True:
     ## Desenhando na tela
     cobra = pygame.draw.rect( tela, rgbCobra, (x_cobra, y_cobra, largCobra, altCobra))
     #posição x e y do azul será sempre uma surpresa
-    maca = pygame.draw.rect( tela, (0,0,255), (x_maca, y_maca, 40, 50))
+    maca = pygame.draw.rect( tela, rgbMaca, (x_maca, y_maca, 40, 50))
 
     #Colisão
     if cobra.colliderect(maca):
