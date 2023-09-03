@@ -66,7 +66,7 @@ def aumenta_cobra(lista_cobra):
         '''
         pygame.draw.rect(tela, corRgbCobra, (XeY[0], XeY[1], largCobra, altCobra))
 def reiniciar_jogo():
-    global pontos, comprimento_inicial, x_cobra, y_cobra, lista_cobra, lista_cabeca, x_maca, y_maca, morreu
+    global pontos, comprimento_inicial_cobra, x_cobra, y_cobra, lista_cobra, lista_cabeca, x_maca, y_maca, morreu
     pontos = 0
     comprimento_inicial_cobra = 5
     x_cobra = int(largura/2)
@@ -76,6 +76,7 @@ def reiniciar_jogo():
     x_maca = randint(40,600)
     y_maca = randint(50,430)
     morreu = False
+    pygame.mixer.music.play(-1)
 
 while True:
     #tick define o número de frames por segundo do jogo
@@ -148,6 +149,11 @@ while True:
     #Verifica se a cobra colidiu nela mesma
     #Verifica se há mais de duas posições de cabeça na lista_cobra, se houver é verdadeiro
     if lista_cobra.count(lista_cabeca) > 1:
+        fonte2 = pygame.font.SysFont(None,20,True,True)
+        mensagem = 'Game Over! Pressione a tecla R para jogar novamente'
+        texto_formatado = fonte2.render(mensagem, True, (0, 0, 0))
+        ret_texto = texto_formatado.get_rect()
+        pygame.mixer.music.stop()
         morreu = True
         while morreu:
             for event in pygame.event.get():
@@ -157,6 +163,10 @@ while True:
                 if event.type == KEYDOWN:
                     if event.key == K_r:
                         reiniciar_jogo()
+            ret_texto.center = (largura//2,altura//2)
+            tela.blit(texto_formatado, ret_texto)
+            pygame.display.update()
+
 
     if len(lista_cobra) > comprimento_inicial_cobra:
         del lista_cobra[0]
