@@ -33,11 +33,15 @@ pontos = 0
 fonte = pygame.font.SysFont('Liberation Serif', 40, True, True)
 
 # propriedades do retângulo
-largCobra = 40
-altCobra = 50
+largCobra = 30
+altCobra = 30
 x_cobra = (largura - largCobra)//2
 y_cobra = (altura - altCobra)//2
 corRgbCobra = (10, 255, 0)
+
+velocidade = 10
+x_controle = velocidade
+y_controle = 0
 
 corRgbTela = (255,255,255)
 corRgbTexto = (0,0,0)
@@ -49,6 +53,7 @@ relogio = pygame.time.Clock()
 
 #array do crescimento da cobra
 lista_cobra = []
+comprimento_inicial_cobra = 5
 
 #Fazer o cobra crescer
 def aumenta_cobra(lista_cobra):
@@ -64,35 +69,53 @@ def aumenta_cobra(lista_cobra):
 while True:
     #tick define o número de frames por segundo do jogo
     relogio.tick(30)
+    tela.fill(corRgbTela)
 
     #Texto para exibir os pontos
     mensagem = f'Pontos: {pontos}'
     texto_formatado = fonte.render(mensagem, True,corRgbTexto)
 
     #truque para não gerar o "rastro" do movimento
-    tela.fill(corRgbTela)
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             exit()
 
-    if pygame.key.get_pressed()[K_a]:
-        if x_cobra > 0:
-            x_cobra -= 20
-    if pygame.key.get_pressed()[K_d]:
-        if x_cobra < (largura-largCobra):
-            x_cobra += 20
-    if pygame.key.get_pressed()[K_w]:
-        if y_cobra > 0:
-            y_cobra -= 20
-    if pygame.key.get_pressed()[K_s]:
-        if y_cobra < (altura-altCobra):
-            y_cobra += 20
+        #Controlando movimentação, velocidade e bloquear
+        #o pressionamento de teclas de direções opostas ao mesmo tempo
+        if event.type == KEYDOWN:
+           if event.key == K_a:
+               if x_controle == velocidade:
+                   pass
+               else:
+                    x_controle = -velocidade
+                    y_controle = 0
+           if event.key == K_d:
+               if x_controle == -velocidade:
+                   pass
+               else:
+                    x_controle = velocidade
+                    y_controle = 0
+           if event.key == K_w:
+               if y_controle == velocidade:
+                   pass
+               else:
+                    x_controle = 0
+                    y_controle = -velocidade
+           if event.key == K_s:
+               if y_controle == -velocidade:
+                   pass
+               else:
+                    x_controle = 0
+                    y_controle = velocidade
+
+    x_cobra += x_controle
+    y_cobra += y_controle
 
     ## Desenhando na tela
     cobra = pygame.draw.rect( tela, corRgbCobra, (x_cobra, y_cobra, largCobra, altCobra))
     #posição x e y do azul será sempre uma surpresa
-    maca = pygame.draw.rect( tela, corRgbMaca, (x_maca, y_maca, 40, 50))
+    maca = pygame.draw.rect( tela, corRgbMaca, (x_maca, y_maca, 30, 30))
 
     #Colisão
     if cobra.colliderect(maca):
@@ -102,12 +125,18 @@ while True:
         pontos += 1
         #som da colisão
         barulho_colisao.play()
+        comprimento_inicial_cobra += 1
 
     #incrementando o tamanho da cobra
     lista_cabeca = []
     lista_cabeca.append(x_cobra)
     lista_cabeca.append(y_cobra)
+
     lista_cobra.append(lista_cabeca)
+
+    if len(lista_cobra) > comprimento_inicial_cobra:
+        del lista_cobra[0]
+
     aumenta_cobra(lista_cobra)
 
     #exibindo o texto na tela   X , Y
