@@ -82,7 +82,7 @@ while True:
         barulho_colisao.play()
 
     #exibindo o texto na tela   X , Y
-    tela.blit(texto_formatado,(450,40))
+    tela.blit(texto_formatado,(50,40))
 
     pygame.display.update()
 
