@@ -65,6 +65,17 @@ def aumenta_cobra(lista_cobra):
             XeY[1] = y
         '''
         pygame.draw.rect(tela, corRgbCobra, (XeY[0], XeY[1], largCobra, altCobra))
+def reiniciar_jogo():
+    global pontos, comprimento_inicial, x_cobra, y_cobra, lista_cobra, lista_cabeca, x_maca, y_maca, morreu
+    pontos = 0
+    comprimento_inicial_cobra = 5
+    x_cobra = int(largura/2)
+    y_cobra = int(altura/2)
+    lista_cobra = []
+    lista_cabeca = []
+    x_maca = randint(40,600)
+    y_maca = randint(50,430)
+    morreu = False
 
 while True:
     #tick define o número de frames por segundo do jogo
@@ -133,6 +144,19 @@ while True:
     lista_cabeca.append(y_cobra)
 
     lista_cobra.append(lista_cabeca)
+
+    #Verifica se a cobra colidiu nela mesma
+    #Verifica se há mais de duas posições de cabeça na lista_cobra, se houver é verdadeiro
+    if lista_cobra.count(lista_cabeca) > 1:
+        morreu = True
+        while morreu:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    exit()
+                if event.type == KEYDOWN:
+                    if event.key == K_r:
+                        reiniciar_jogo()
 
     if len(lista_cobra) > comprimento_inicial_cobra:
         del lista_cobra[0]
