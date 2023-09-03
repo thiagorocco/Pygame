@@ -24,7 +24,8 @@ titulo = 'Jogo da Cobrinha(Snake Game) com Pygame'
 #Posição aleatório do retangulo azul
 x_maca = randint(40,600)
 y_maca = randint(50,430)
-rgbMaca = (255, 0, 0)
+
+corRgbMaca = (255, 0, 0)
 
 ### Variável para controlar os pontos que serão exibidos
 pontos = 0
@@ -36,12 +37,29 @@ largCobra = 40
 altCobra = 50
 x_cobra = (largura - largCobra)//2
 y_cobra = (altura - altCobra)//2
-rgbCobra = (10, 255, 0)
+corRgbCobra = (10, 255, 0)
+
+corRgbTela = (255,255,255)
+corRgbTexto = (0,0,0)
 
 tela = pygame.display.set_mode((largura, altura))
 pygame.display.set_caption(titulo)
 #controlando os frames por segundo
 relogio = pygame.time.Clock()
+
+#array do crescimento da cobra
+lista_cobra = []
+
+#Fazer o cobra crescer
+def aumenta_cobra(lista_cobra):
+    for XeY in lista_cobra:
+        '''
+            Para entendimento
+            XeY = [x, y]
+            XeY[0] = x
+            XeY[1] = y
+        '''
+        pygame.draw.rect(tela, corRgbCobra, (XeY[0], XeY[1], largCobra, altCobra))
 
 while True:
     #tick define o número de frames por segundo do jogo
@@ -49,28 +67,32 @@ while True:
 
     #Texto para exibir os pontos
     mensagem = f'Pontos: {pontos}'
-    texto_formatado = fonte.render(mensagem, True,(0,0,0))
+    texto_formatado = fonte.render(mensagem, True,corRgbTexto)
 
     #truque para não gerar o "rastro" do movimento
-    tela.fill((255,255,255))
+    tela.fill(corRgbTela)
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             exit()
 
     if pygame.key.get_pressed()[K_a]:
-        x_cobra -= 20
+        if x_cobra > 0:
+            x_cobra -= 20
     if pygame.key.get_pressed()[K_d]:
-        x_cobra += 20
+        if x_cobra < (largura-largCobra):
+            x_cobra += 20
     if pygame.key.get_pressed()[K_w]:
-        y_cobra -= 20
+        if y_cobra > 0:
+            y_cobra -= 20
     if pygame.key.get_pressed()[K_s]:
-        y_cobra += 20
+        if y_cobra < (altura-altCobra):
+            y_cobra += 20
 
     ## Desenhando na tela
-    cobra = pygame.draw.rect( tela, rgbCobra, (x_cobra, y_cobra, largCobra, altCobra))
+    cobra = pygame.draw.rect( tela, corRgbCobra, (x_cobra, y_cobra, largCobra, altCobra))
     #posição x e y do azul será sempre uma surpresa
-    maca = pygame.draw.rect( tela, rgbMaca, (x_maca, y_maca, 40, 50))
+    maca = pygame.draw.rect( tela, corRgbMaca, (x_maca, y_maca, 40, 50))
 
     #Colisão
     if cobra.colliderect(maca):
@@ -80,6 +102,13 @@ while True:
         pontos += 1
         #som da colisão
         barulho_colisao.play()
+
+    #incrementando o tamanho da cobra
+    lista_cabeca = []
+    lista_cabeca.append(x_cobra)
+    lista_cabeca.append(y_cobra)
+    lista_cobra.append(lista_cabeca)
+    aumenta_cobra(lista_cobra)
 
     #exibindo o texto na tela   X , Y
     tela.blit(texto_formatado,(50,40))
