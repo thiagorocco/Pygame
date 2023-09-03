@@ -149,13 +149,14 @@ while True:
     #Verifica se a cobra colidiu nela mesma
     #Verifica se há mais de duas posições de cabeça na lista_cobra, se houver é verdadeiro
     if lista_cobra.count(lista_cabeca) > 1:
-        fonte2 = pygame.font.SysFont(None,20,True,True)
+        fonte2 = pygame.font.SysFont('yrsa', 30, True, True)
         mensagem = 'Game Over! Pressione a tecla R para jogar novamente'
         texto_formatado = fonte2.render(mensagem, True, (0, 0, 0))
         ret_texto = texto_formatado.get_rect()
         pygame.mixer.music.stop()
         morreu = True
         while morreu:
+            tela.fill((255,255,255))
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
@@ -163,10 +164,19 @@ while True:
                 if event.type == KEYDOWN:
                     if event.key == K_r:
                         reiniciar_jogo()
-            ret_texto.center = (largura//2,altura//2)
+            ret_texto.center = (largura//2, altura//2)
             tela.blit(texto_formatado, ret_texto)
             pygame.display.update()
 
+    #Posição da cobra volta para a tela automaticamente ao sair
+    if x_cobra > largura:
+        x_cobra = 0
+    if x_cobra < 0:
+        x_cobra = largura
+    if y_cobra < 0:
+        y_cobra = altura
+    if y_cobra > altura:
+        y_cobra = 0
 
     if len(lista_cobra) > comprimento_inicial_cobra:
         del lista_cobra[0]
@@ -174,7 +184,7 @@ while True:
     aumenta_cobra(lista_cobra)
 
     #exibindo o texto na tela   X , Y
-    tela.blit(texto_formatado,(50,40))
+    tela.blit(texto_formatado, (50, 40))
 
     pygame.display.update()
 
